@@ -4,7 +4,10 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>My Trae Project</title>
+    <title>Briefing Eluria</title>
+    <style>
+      #trae-badge-plugin { display: none !important; visibility: hidden !important; opacity: 0 !important; pointer-events: none !important; }
+    </style>
     <script type="module">
       if (import.meta.hot?.on) {
         import.meta.hot.on('vite:error', (error) => {
@@ -20,5 +23,27 @@
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+    <script>
+      // Force remove Trae badge if it exists
+      (function() {
+        var removeBadge = function() {
+          var badge = document.getElementById('trae-badge-plugin');
+          if (badge) badge.remove();
+          
+          // Also try removing by class
+          var badges = document.querySelectorAll('.trae-badge');
+          badges.forEach(function(b) { b.remove(); });
+        };
+        
+        // Run immediately
+        removeBadge();
+        
+        // Run periodically just in case it's injected later
+        setInterval(removeBadge, 100);
+        
+        // Run on load
+        window.addEventListener('load', removeBadge);
+      })();
+    </script>
   </body>
 </html>
